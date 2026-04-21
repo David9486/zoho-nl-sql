@@ -1,6 +1,7 @@
 package com.zoho.nl_sql.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,20 +16,27 @@ public class ZohoDataService {
 
     private RestTemplate restTemplate;
 
-    private static final String ACCESS_TOKEN = "1000.6ee1fdfdd67bf05b8a8c423f301ca98c.3dfc5725865dae5158728da08939a5a6";
-    private static final String ORG_ID = "60067461398";
-    private static final String WORKSPACE_ID = "526255000000002004";
-    private static final String VIEW_ID = "526255000000004002";
+    @Value("${zoho.access.token}")
+    private String accessToken;
+
+    @Value("${zoho.org.id}")
+    private String orgId;
+
+    @Value("${zoho.workspace.id}")
+    private String workspaceId;
+
+    @Value("${zoho.view.id}")
+    private String viewId;
 
     public String fetchTableData(){
 
         String url = "https://analyticsapi.zoho.in/restapi/v2/workspaces/"
-                + WORKSPACE_ID + "/views/" + VIEW_ID + "/data";
+                + workspaceId + "/views/" + viewId + "/data";
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.set("Authorization", "Zoho-oauthtoken " + ACCESS_TOKEN);
-        headers.set("ZANALYTICS-ORGID", ORG_ID);
+        headers.set("Authorization", "Zoho-oauthtoken " + accessToken);
+        headers.set("ZANALYTICS-ORGID", orgId);
 
         //wrapping headers and body together as one object
         HttpEntity<String> entity = new HttpEntity<>(headers);

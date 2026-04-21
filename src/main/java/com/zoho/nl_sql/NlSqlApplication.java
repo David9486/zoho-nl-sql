@@ -21,7 +21,7 @@ public class NlSqlApplication {
         SpringApplication.run(NlSqlApplication.class, args);
 
 
-        }
+
 	}
 
 }
